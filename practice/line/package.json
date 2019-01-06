@@ -1,0 +1,22 @@
+{
+  "name": "LineBotTest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "line",
+    "bot",
+    "messaging-api"
+  ],
+  "author": "Kingkong the Origin",
+  "license": "MIT",
+  "devDependencies": {},
+  "dependencies": {
+    "@line/bot-sdk": "^6.2.1",
+    "express": "^4.16.3"
+  }
+}
