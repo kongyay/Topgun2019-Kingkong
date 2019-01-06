@@ -3,6 +3,7 @@
 const line = require('@line/bot-sdk');
 const express = require('express');
 const config = require('./config.json');
+var bodyParser = require('body-parser');
 
 // create LINE SDK client
 const client = new line.Client(config);
@@ -11,6 +12,12 @@ const app = express();
 
 app.get('/', function (req, res) {
   res.send('hello world');
+});
+
+// webhook callback
+app.post('/webhook', (req, res) => {
+  console.log(req.body);
+  res.end("yes");
 });
 
 // webhook callback
@@ -117,6 +124,8 @@ function handleSticker(message, replyToken) {
 }
 
 const port = config.port;
+
+app.use(bodyParser.json())
 app.listen(port, () => {
   console.log(`=== LINE Bot on port: ${port} ===`);
 });
