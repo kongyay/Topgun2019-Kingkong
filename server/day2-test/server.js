@@ -27,7 +27,7 @@ app.get('/showbyID/:id', (req, res) => {
     data = JSON.parse(data);
     
     let resultKey = Object.keys(data).find(x => data[x].id == id);
-    
+
     if (resultKey != undefined) {
       let result = {};
       result[resultKey] = data[resultKey];
@@ -49,8 +49,8 @@ app.post('/addUser', (req, res) => {
     data[`user${(dataLength + 1).toString()}`] = req.body;
     console.log(data);
     res.end(JSON.stringify(data));
-  })
-})
+  });
+});
 
 app.post('/addMultiUser', (req, res) => {
   let newUsers = req.body;
@@ -68,8 +68,24 @@ app.post('/addMultiUser', (req, res) => {
     
     console.log(data);
     res.end(JSON.stringify(data));
-  })
-})
+  });
+});
+
+app.get('/deleteUser/:id', (req, res) => {
+  fs.readFile(__dirname + "/" + "users.json", 'utf8', (err, data) => {
+    let id = parseInt(req.params.id);    
+    data = JSON.parse(data);
+    
+    let resultKey = Object.keys(data).find(x => data[x].id == id);
+    console.log(resultKey)
+    if (resultKey != undefined) {
+      delete data[resultKey]
+      res.end(JSON.stringify(data))
+    } else {
+      res.end("NOT FOUND");
+    }
+  });
+});
 
 let server = app.listen(3000, () => {
   let port = server.address().port;
