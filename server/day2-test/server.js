@@ -27,7 +27,7 @@ app.get('/showbyID/:id', (req, res) => {
     data = JSON.parse(data);
     
     let resultKey = Object.keys(data).find(x => data[x].id == id);
-
+    
     if (resultKey != undefined) {
       let result = {};
       result[resultKey] = data[resultKey];
@@ -47,6 +47,25 @@ app.post('/addUser', (req, res) => {
     req.body["id"] = dataLength + 1;
     
     data[`user${(dataLength + 1).toString()}`] = req.body;
+    console.log(data);
+    res.end(JSON.stringify(data));
+  })
+})
+
+app.post('/addMultiUser', (req, res) => {
+  let newUsers = req.body;
+  console.log(newUsers);
+
+  fs.readFile(__dirname + "/" + "users.json", 'utf8', (err, data) => {
+    data = JSON.parse(data);
+    let dataLength = Object.keys(data).length;
+
+    for (let i = 0; i < newUsers.length; i++) {
+      console.log(newUsers[i]);
+      newUsers[i]["id"] = dataLength + 1;
+      data[`user${((dataLength++) + 1).toString()}`] = newUsers[i];
+    }
+    
     console.log(data);
     res.end(JSON.stringify(data));
   })
