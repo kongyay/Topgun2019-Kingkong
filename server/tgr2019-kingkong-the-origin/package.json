@@ -1,6 +1,6 @@
 {
-  "name": "test",
-  "version": "0.0.0",
+  "name": "tgr2019-kingkong-the-origin",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www"
