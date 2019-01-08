@@ -1,27 +1,25 @@
-'use strict';
+var express = require('express');
+var router = express.Router();
 
 const line = require('@line/bot-sdk');
-const express = require('express');
-const config = require('./config.json');
-var bodyParser = require('body-parser');
-
-// create LINE SDK client
+const config = require('../config.json');
 const client = new line.Client(config);
-
-const app = express();
-
-app.get('/', function (req, res) {
-  res.send('hello world');
+console.log(config)
+/* GET home page. */
+router.get('/', function(req, res, next) {
+  res.render('index', { title: 'Express' });
 });
 
-// webhook callback
-app.post('/webhook', (req, res) => {
+router.post('/webhook_df', (req, res) => {
   console.log(req.body);
-  res.end("yes");
+  if(req.queryResult.action === 'predict') {
+    temp = req.queryResult.parameters.temp
+    res.json({text:'yes'});
+  }
+  res.json({text:'test'});
 });
 
-// webhook callback
-app.post('/webhook', line.middleware(config), (req, res) => {
+router.post('/webhook_line', line.middleware(config), (req, res) => {
   // req.body.events should be an array of events
   if (!Array.isArray(req.body.events)) {
     return res.status(500).end();
@@ -123,9 +121,5 @@ function handleSticker(message, replyToken) {
   return replyText(replyToken, 'Got Sticker');
 }
 
-const port = config.port;
 
-app.use(bodyParser.json())
-app.listen(port, () => {
-  console.log(`=== LINE Bot on port: ${port} ===`);
-});
+module.exports = router;
