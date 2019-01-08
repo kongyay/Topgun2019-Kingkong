@@ -38,6 +38,20 @@ app.get('/showbyID/:id', (req, res) => {
   });
 });
 
+app.post('/addUser', (req, res) => {
+  let newUser = req.body;
+
+  fs.readFile(__dirname + "/" + "users.json", 'utf8', (err, data) => {
+    data = JSON.parse(data);
+    let dataLength = Object.keys(data).length;
+    req.body["id"] = dataLength + 1;
+    
+    data[`user${(dataLength + 1).toString()}`] = req.body;
+    console.log(data);
+    res.end(JSON.stringify(data));
+  })
+})
+
 let server = app.listen(3000, () => {
   let port = server.address().port;
 
