@@ -5,6 +5,9 @@ var data = []
 var xs = [];
 var ys = [];
 
+let MAXX = -999;
+let MAXY = -999;
+
 function range(start, end) {
     var ans = [];
     for (let i = start; i < end; i++) {
@@ -29,17 +32,27 @@ function readCSV() {
 }
 
 async function prepareData() {
-    // let MAX = -999;
-    // const len = data.length
-    // for (i=0; i<len; i++) {
-    //     if (MAX <= data[i]) {
-    //         MAX = data[i];
+    
+    xs = data.map(d => d[0]);
+    ys = data.map(d => d[1]);
+
+    // for (let i=0; i<xs.length; i++) {
+    //     if (MAXX <= xs[i]) {
+    //         MAXX = xs[i];
     //     }
     // }
+    for (let i=0; i<ys.length; i++) {
+        if (MAXY <= ys[i]) {
+            MAXY = ys[i];
+        }
+    }
     
-    // let dataset = data.map((number) => {
-    //     return number/MAX;
+    // let xs = data.map((number) => {
+    //     return number/MAXX;
     // })
+    ys = ys.map((number) => {
+        return number/MAXY;
+    })
 
     // let arr = range(TIME_STEP, dataset.length - NUM_OUT + 1);
 
@@ -48,8 +61,8 @@ async function prepareData() {
     // });
 
        //[T1,P1,S1],[T2,P2,S2],[T3,P3,S3]
-   xs = data.map(d => [d[0]]);
-   ys = data.map(d => d[1]);
+    xs = data.map(d => [d[0]]);
+    ys = data.map(d => d[1]);
     
 }
 
