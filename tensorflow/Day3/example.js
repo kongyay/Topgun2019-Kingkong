@@ -7,6 +7,7 @@ var ys = [];
 
 let MAXX = -999;
 let MAXY = -999;
+let MINY = 999
 
 function range(start, end) {
     var ans = [];
@@ -28,12 +29,12 @@ function readCSV() {
         var corrected = [new Date(subline[0]+subline[1]).getTime(),parseFloat(subline[2])]
         data.push(corrected);
     }
-    return data
+    return data.reverse()
 }
 
 async function prepareData() {
     
-    xs = data.map(d => d[0]);
+    xs = data.map(d => [d[0]]);
     ys = data.map(d => d[1]);
 
     // for (let i=0; i<xs.length; i++) {
@@ -42,16 +43,20 @@ async function prepareData() {
     //     }
     // }
     for (let i=0; i<ys.length; i++) {
-        if (MAXY <= ys[i]) {
+        if (MAXY < ys[i]) {
             MAXY = ys[i];
         }
+        if (MINY > ys[i]) {
+            MINY = ys[i];
+        }
     }
+
     
     // let xs = data.map((number) => {
     //     return number/MAXX;
     // })
-    ys = ys.map((number) => {
-        return number/MAXY;
+    ys = ys.map((yi) => {
+        return (yi-MINY)/(MAXY-MINY);
     })
 
     // let arr = range(TIME_STEP, dataset.length - NUM_OUT + 1);
@@ -61,26 +66,30 @@ async function prepareData() {
     // });
 
        //[T1,P1,S1],[T2,P2,S2],[T3,P3,S3]
-    xs = data.map(d => [d[0]]);
-    ys = data.map(d => d[1]);
     
 }
 
 const model = tf.sequential();
 
 model.add(tf.layers.lstm({
-    units: 50, // Node in layer
+    units: 64, // Node in layer
+    inputShape: [1,1], // [Time Step, Dimension]
+    returnSequences: true
+}));
+
+model.add(tf.layers.lstm({
+    units: 64, // Node in layer
     inputShape: [1,1], // [Time Step, Dimension]
     returnSequences: false
 }));
 
 model.add(tf.layers.dense({
     units: 1, // Node = How many output we want ?
-    kernelInitializer: 'VarianceScaling', // Randomer
+   // kernelInitializer: 'VarianceScaling', // Randomer
     activation: 'relu'
 }));
 
-const LEARNING_RATE = 0.001;
+const LEARNING_RATE = 0.0001;
 const optimizer = tf.train.adam(LEARNING_RATE);
 
 model.compile({
@@ -95,9 +104,9 @@ async function main(){
             trainXS,
             trainYS,
             {
-                batchSize: 1, // How many data per train
+                batchSize: 128, // How many data per train
                 epochs: 100,
-                shuffle: true, // Pick randomly. not Order
+                shuffle: false, // Pick randomly. not Order
                 validationSplit: 0.2 // 0.2 = 80 train & 20 test
             });
     }
@@ -126,13 +135,14 @@ async function main(){
       
     load();
 
-    let xx = [[10,20,30]];
+    let xx = [[1533229200000]];
     let xxx = tf.tensor2d(xx);
-    xxx = tf.reshape(xxx,[1,3,1]);
+    xxx = tf.reshape(xxx,[1,1,1]);
 
     const r = model.predict(xxx);
     let result = r.dataSync()[0];
-    console.log('RESULT',result);
+    let n_result = result*(MAXY-MINY)+MINY
+    console.log('RESULT',n_result);
 }
 
 main();
