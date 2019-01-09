@@ -82,8 +82,35 @@ temperatureController.editByID = (req, res) => {
 }
 
 temperatureController.addByReceive = (req, res) => {
-  console.log(req.body.DevEUI_uplink.payload_parsed);
-  res.sendStatus(200);
+  let data = req.body.DevEUI_uplink.payload_parsed.frames;
+  console.log(data);
+
+  let unpack = new Promise((resolve, reject) => {
+    let receive = {}
+
+    data.forEach(obj => {
+      if (obj.type == 2) {
+        receive["teamID"] = parseInt(obj.value);
+      } else if (obj.type == 103) {
+        receive["temp"] = parseFloat(obj.value)
+      }
+    });
+
+    resolve(receive);
+  });
+
+  unpack.then(data => {
+    let newTemp = new Temperature(data);
+    newTemp.save(function(err) {
+      if (err) {
+        console.log(err);
+        res.end("ERR");
+      }
+      let result = {};
+      result["receive"] = data;
+      res.end(JSON.stringify(result));
+    });
+  });
 }
 
 module.exports = temperatureController;
