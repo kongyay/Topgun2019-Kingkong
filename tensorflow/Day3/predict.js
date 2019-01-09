@@ -18,9 +18,13 @@ function readCSV() {
 }
 
 async function main(){
-    // PREDICTION
+    // CSV DAYS
     const model = await tf.loadModel('file://model/model.json');
     readCSV()
+
+    // MANUAL DAY
+    let day = "10/24/2012"
+    data = [[new Date(day).setHours(0,0,0,0)]]
     
     for(let i=0;i<data.length;i++) {
         let xx = [[data[i][0]]];
