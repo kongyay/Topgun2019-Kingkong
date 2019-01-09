@@ -14,4 +14,8 @@ router.delete('/deleteData/:teamID', (req, res) => {
   temperature.deleteByID(req, res);
 })
 
+router.put('/editData/:teamID', (req, res) => {
+  temperature.editByID(req, res);
+})
+
 module.exports = router;

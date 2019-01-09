@@ -22,7 +22,7 @@ temperatureController.add = (req, res) => {
   newTemp.save(function(err) {
     if (err) {
       console.log(err);
-      res.end("NOT OK");
+      res.end("ERR");
     }
     let result = {};
     result["add"] = data;
@@ -34,7 +34,7 @@ temperatureController.deleteByID = (req, res) => {
   let id = parseInt(req.params.teamID);
   Temperature.find({ teamID: id }).exec(function (err, temperatures) {
     if (err) {
-      console.log("Error:", err);
+      console.log(err);
     } else if (temperatures.length == 0) {
       res.end(`NO TEAM ID: ${id}`);
     }
@@ -42,7 +42,7 @@ temperatureController.deleteByID = (req, res) => {
       Temperature.deleteMany({ teamID: id }, err => {
         if (err) {
           console.log(err);
-          res.end("ERROR")
+          res.end("ERR")
         }
         let result = {}
         result["delete"] = temperatures
@@ -50,7 +50,35 @@ temperatureController.deleteByID = (req, res) => {
       });
     }
   });
-  
+}
+
+temperatureController.editByID = (req, res) => {
+  let id = parseInt(req.params.teamID);
+  let data = req.body;
+  Temperature.find({ teamID: id }).exec(function (err, temperatures) {
+    if (err) {
+      console.log(err);
+    } else if (temperatures.length == 0) {
+      res.end(`NO TEAM ID: ${id}`);
+    }
+    else {
+      Temperature.updateMany({ teamID: id }, data, err => {
+        if (err) {
+          console.log(err);
+          res.end("ERR")
+        }
+        Temperature.find({ teamID: id }).exec((err, temperatures_upd) => {
+          if (err) {
+            console.log(err);
+            res.end("ERR");
+          }
+          let result = {}
+          result["update"] = temperatures_upd;
+          res.end(JSON.stringify(result));
+        })
+      });
+    }
+  });
 }
 
 module.exports = temperatureController;
