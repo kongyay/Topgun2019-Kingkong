@@ -82,7 +82,7 @@ temperatureController.editByID = (req, res) => {
 }
 
 temperatureController.addByReceive = (req, res) => {
-  console.log(req.body);
+  console.log(req.body.payload_parsed);
   res.sendStatus(200);
 }
 
