@@ -10,4 +10,8 @@ router.post('/addData', (req, res) => {
   temperature.add(req, res);
 })
 
+router.delete('/deleteData/:teamID', (req, res) => {
+  temperature.deleteByID(req, res);
+})
+
 module.exports = router;

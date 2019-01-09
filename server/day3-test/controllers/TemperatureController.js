@@ -28,4 +28,15 @@ temperatureController.add = (req, res) => {
   res.end("200 OK");
 }
 
+temperatureController.deleteByID = (req, res) => {
+  let id = parseInt(req.params.teamID);
+  Temperature.deleteMany({ teamID: id }, err => {
+    if (err) {
+      console.log(err);
+      res.end("ERROR")
+    }
+    res.end("OK")
+  });
+}
+
 module.exports = temperatureController;
