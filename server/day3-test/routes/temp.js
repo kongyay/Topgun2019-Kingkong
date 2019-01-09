@@ -18,4 +18,8 @@ router.put('/editData/:teamID', (req, res) => {
   temperature.editByID(req, res);
 })
 
+router.post('/receiveData', (req, res) => {
+  temperature.addByReceive(req, res);
+})
+
 module.exports = router;
