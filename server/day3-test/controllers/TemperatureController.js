@@ -24,19 +24,33 @@ temperatureController.add = (req, res) => {
       console.log(err);
       res.end("NOT OK");
     }
+    let result = {};
+    result["add"] = data;
+    res.end(JSON.stringify(result));
   });
-  res.end("200 OK");
 }
 
 temperatureController.deleteByID = (req, res) => {
   let id = parseInt(req.params.teamID);
-  Temperature.deleteMany({ teamID: id }, err => {
+  Temperature.find({ teamID: id }).exec(function (err, temperatures) {
     if (err) {
-      console.log(err);
-      res.end("ERROR")
+      console.log("Error:", err);
+    } else if (temperatures.length == 0) {
+      res.end(`NO TEAM ID: ${id}`);
     }
-    res.end("OK")
+    else {
+      Temperature.deleteMany({ teamID: id }, err => {
+        if (err) {
+          console.log(err);
+          res.end("ERROR")
+        }
+        let result = {}
+        result["delete"] = temperatures
+        res.end(JSON.stringify(result));
+      });
+    }
   });
+  
 }
 
 module.exports = temperatureController;
