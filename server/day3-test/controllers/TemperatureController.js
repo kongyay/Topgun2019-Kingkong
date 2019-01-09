@@ -16,4 +16,16 @@ temperatureController.list = function(req, res) {
   });
 };
 
+temperatureController.add = (req, res) => {
+  let data = req.body;
+  let newTemp = new Temperature(data);
+  newTemp.save(function(err) {
+    if (err) {
+      console.log(err);
+      res.end("NOT OK");
+    }
+  });
+  res.end("200 OK");
+}
+
 module.exports = temperatureController;
