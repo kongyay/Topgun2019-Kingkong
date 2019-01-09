@@ -120,7 +120,7 @@ function handleEvent(event) {
 	}
   }
   
-  function handleText(message, replyToken) {
+  function handleText(replyToken, message) {
 	let msg = message.text.toLowerCase()
 	if(message.text.toLowerCase().match(/(บอท|Bot)/)) {
 	   msg = msg.replace(/(บอท|Bot)/,"");
