@@ -1,0 +1,100 @@
+{
+    "type": "flex",
+    "altText": "Flex Message",
+    "contents": {
+      "type": "bubble",
+      "hero": {
+        "type": "image",
+        "url": "https://scontent.fbkk14-1.fna.fbcdn.net/v/t1.0-9/12803025_10153539700725658_2939169221607114558_n.jpg?_nc_cat=106&_nc_ht=scontent.fbkk14-1.fna&oh=0f92db89e83f633952f660298149fd92&oe=5CD439CE",
+        "size": "full",
+        "aspectRatio": "20:13",
+        "action": {
+          "type": "uri",
+          "label": "Line",
+          "uri": "https://linecorp.com/"
+        }
+      },
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "text",
+            "text": "KINGKONG the origin",
+            "size": "lg",
+            "weight": "bold"
+          },
+          {
+            "type": "box",
+            "layout": "vertical",
+            "spacing": "sm",
+            "margin": "lg",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "baseline",
+                "spacing": "sm",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "Event",
+                    "flex": 1,
+                    "size": "sm",
+                    "color": "#AAAAAA"
+                  },
+                  {
+                    "type": "text",
+                    "text": "TESA Topgun Rally 2019",
+                    "flex": 5,
+                    "size": "sm",
+                    "color": "#666666",
+                    "wrap": true
+                  }
+                ]
+              },
+              {
+                "type": "box",
+                "layout": "baseline",
+                "spacing": "sm",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "Time",
+                    "flex": 1,
+                    "size": "sm",
+                    "color": "#AAAAAA"
+                  },
+                  {
+                    "type": "text",
+                    "text": "10:00 - 23:00",
+                    "flex": 5,
+                    "size": "sm",
+                    "color": "#666666",
+                    "wrap": true
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "footer": {
+        "type": "box",
+        "layout": "vertical",
+        "flex": 0,
+        "spacing": "sm",
+        "contents": [
+          {
+            "type": "button",
+            "action": {
+              "type": "uri",
+              "label": "WEBSITE",
+              "uri": "https://www.facebook.com/TESA.Networking/"
+            },
+            "height": "sm",
+            "style": "link"
+          }
+        ]
+      }
+    }
+  }

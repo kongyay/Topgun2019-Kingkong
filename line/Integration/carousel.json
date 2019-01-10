@@ -14,14 +14,16 @@
                         {
                             "type": "text",
                             "text": "Temperature",
+                            "weight": "bold",
                             "align": "center"
+                            
                         }
                     ]
                 },
                 "hero": {
                     "type": "image",
                     "url": "https://www.iconsdb.com/icons/preview/tropical-blue/temperature-xxl.png",
-                    "size": "full",
+                    "size": "xl",
                     "aspectRatio": "1.51:1",
                     "aspectMode": "fit"
                 },
@@ -50,6 +52,7 @@
                         {
                             "type": "text",
                             "text": "Humudity",
+                            "weight": "bold",
                             "align": "center"
                         }
                     ]
@@ -57,7 +60,7 @@
                 "hero": {
                     "type": "image",
                     "url": "https://findicons.com/files/icons/2711/free_icons_for_windows8_metro/256/humidity.png",
-                    "size": "full",
+                    "size": "xl",
                     "aspectRatio": "1.51:1",
                     "aspectMode": "fit"
                 },
@@ -86,6 +89,7 @@
                         {
                             "type": "text",
                             "text": "Visitor",
+                            "weight": "bold",
                             "align": "center"
                         }
                     ]
@@ -93,7 +97,7 @@
                 "hero": {
                     "type": "image",
                     "url": "https://www.stoswaldsuk.org/media/22612/people-icon-orange.png",
-                    "size": "full",
+                    "size": "xs",
                     "aspectRatio": "1.51:1",
                     "aspectMode": "fit"
                 },

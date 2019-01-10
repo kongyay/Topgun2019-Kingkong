@@ -1,9 +1,10 @@
 const tf = require('@tensorflow/tfjs');
 require('@tensorflow/tfjs-node');
+const maxmin = require('./maxmin.json')
 
 var data = [];
-const MAXY = 36.50
-const MINY = 28.615
+const MAXY = maxmin[0]
+const MINY = maxmin[1]
 // READ
 
 function denorm(result){
