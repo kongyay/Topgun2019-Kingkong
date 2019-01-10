@@ -4,6 +4,12 @@ const express = require('express')
 
 const config = require('../config.json')
 var carou = require('./carousel.json')
+var predBox = require('./predictBox.json')
+var about = require('./about.json')
+
+var insideId = [
+
+]
 
 const app = express()
 const port = process.env.PORT || 8080
@@ -88,20 +94,10 @@ function handleEvent(event) {
 	  case 'message':
 		const message = event.message;
 		switch (message.type) {
-		  case 'text':
+			case 'text':
 			return handleText( event.replyToken, message);
-		  case 'image':
-			return handleImage( event.replyToken, message);
-		  case 'video':
-			return handleVideo( event.replyToken, message);
-		  case 'audio':
-			return handleAudio( event.replyToken, message);
-		  case 'location':
-			return handleLocation( event.replyToken, message);
-		  case 'sticker':
-			return handleSticker( event.replyToken, message);
 		  default:
-			throw new Error(`Unknown message: ${JSON.stringify(message)}`);
+			return null;
 		}
   
 	  case 'follow':
@@ -121,7 +117,6 @@ function handleEvent(event) {
 		return reply(event.replyToken, `EVENT Postback: ${data}`);
   
 	  case 'beacon':
-		console.log(event.beacon.type === 'enter' ? '++++++++++':'----------',new Date(event.timestamp),`EVENT Beacon: ${JSON.stringify(event)}`);
 		let payload = {
 			"beacon": {
 				"datetime": new Date(event.timestamp).toISOString(),
@@ -143,10 +138,32 @@ function handleEvent(event) {
 				console.log(error.message)
 			} else {
 				console.log(response.body)
-				if(false===false)
-					return reply(event.replyToken, 'จำนวนคนเกิน กรุณาเชิญคนออกจากบริเวณ');
 			}
-    });
+		});
+		
+		if(event.beacon.type === 'enter' ) {
+			if(insideId.indexOf(event.source.userId) < 0) {
+				insideId.push(event.source.userId)
+			} else {
+				
+			}
+			
+		} else if(event.beacon.type === 'leave' ) {
+			let index = insideId.indexOf(event.source.userId);
+			if(index > -1) {
+				insideId.splice(index,1)
+			} else {
+				
+			}
+		}
+
+		console.log(event.beacon.type === 'enter' ? '++++++++++':'----------',insideId.length,new Date(event.timestamp),`EVENT Beacon: ${JSON.stringify(event)}`);
+		if(insideId.length>=2) {
+			if(event.source.userId === config.userId)
+				return push(`จำนวนคนเกิน กรุณาเชิญคนออกจากบริเวณ ${insideId.length}/2`);
+			else
+				return reply(event.replyToken,`จำนวนคนเกินกว่าที่อนุญาต กรุณาออกจากบริเวณ ${insideId.length}/2`);
+		}
 
 		return reply(event.replyToken, event.beacon.type === 'enter' ? 'สวัสดีครับบบบ :)':'ไว้เจอกันใหม่นะครับบบบ :)');
 		
@@ -156,12 +173,12 @@ function handleEvent(event) {
 	}
 }
   
-  function handleText(replyToken, message) {
+function handleText(replyToken, message) {
 	let msg = message.text.toLowerCase()
-	if(message.text === 'Admin_Mon') {
+	console.log(msg)
+	if(msg === 'admin_mon') {
 		var options = {
-      uri: `${config.serverIp}/getAdminMon`,
-      body: {},
+      uri: `http://${config.serverIp}/api/getAdminMon`,
       method: 'GET',
       headers: {
 				'Content-Type': 'application/json',
@@ -172,12 +189,14 @@ function handleEvent(event) {
 			if(error) {
 				return reply(replyToken,error.message)
 			} else {
-				if(res.status === 0) {
+				let body = JSON.parse(res.body)
+				console.log(body)
+				if(body.status === 0) {
 					let flex = carou
-					flex.contents.contents[0].body.contents[0].text = `${res.temp} °C`
-					flex.contents.contents[1].body.contents[0].text = `${res.humidity} 	%`
-					flex.contents.contents[2].body.contents[0].contents[1].text = `${res["P-IN"]}`
-					flex.contents.contents[2].body.contents[1].contents[1].text = `${res["P-OUT"]}`
+					flex.contents.contents[0].body.contents[0].text = `${body.Temperature} °C`
+					flex.contents.contents[1].body.contents[0].text = `${body.Humidity} 	%`
+					flex.contents.contents[2].body.contents[0].contents[1].text = `${body["P-IN"]}`
+					flex.contents.contents[2].body.contents[1].contents[1].text = `${body["P-OUT"]}`
 
 					return replyObj(replyToken,flex)
 				} else {
@@ -189,31 +208,43 @@ function handleEvent(event) {
 
 	   
 	}
+
+	else if(message.text === 'Beacon') {
+	  return reply(replyToken,insideId.length)
+	}
+
+	else if(message.text === 'About') {
+	  return replyObj(replyToken,about)
+	}
+	
+	else if(message.text === 'Predict') {
+		var options = {
+      uri: `http://${config.serverIp}/api/predict`,
+      method: 'GET',
+      headers: {
+				'Content-Type': 'application/json',
+				'X-Bot-Auth' : 'D26oztwqXtn6uBGB'
+      }
+    }
+    request(options,  function (error, res) {
+			if(error) {
+				return reply(replyToken,error.message)
+			} else {
+				let flex = predBox
+				let body = JSON.parse(res.body)
+				flex.contents.body.contents[0].text = body.number_of_tourist[0]
+				flex.contents.body.contents[2].text = body.number_of_tourist[1]
+				flex.contents.body.contents[4].text = body.number_of_tourist[1]
+				return replyObj(replyToken,flex)
+			}
+    });
+
+	   
+	}
 	  
 	else
 	  return null;
   }
-  
-  function handleImage(message, replyToken) {
-	return reply(replyToken, 'Got Image');
-  }
-  
-  function handleVideo(message, replyToken) {
-	return reply(replyToken, 'Got Video');
-  }
-  
-  function handleAudio(message, replyToken) {
-	return reply(replyToken, 'Got Audio');
-  }
-  
-  function handleLocation(message, replyToken) {
-	return reply(replyToken, 'Got Location');
-  }
-  
-  function handleSticker(message, replyToken) {
-	return reply(replyToken, 'Got Sticker');
-  }
-  
 
 app.listen(port, hostname, () => {
 	console.log(`Server running at http://${hostname}:${port}/`)

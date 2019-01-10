@@ -1,0 +1,65 @@
+{
+    "type": "flex",
+    "altText": "Flex Message",
+    "contents": {
+      "type": "bubble",
+      "direction": "ltr",
+      "header": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "text",
+            "text": "จำนวนคนใน 3 ชั่วโมงข้างหน้า",
+            "align": "center",
+            "gravity": "center",
+            "weight": "bold",
+            "color": "#000000"
+          }
+        ]
+      },
+      "hero": {
+        "type": "image",
+        "url": "https://img.icons8.com/metro/1600/conference-call.png",
+        "size": "xs",
+        "aspectRatio": "1.51:1",
+        "aspectMode": "fit"
+      },
+      "body": {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+          {
+            "type": "text",
+            "text": "xxxxxxx",
+            "align": "center",
+            "gravity": "center",
+            "weight": "regular",
+            "color": "#000000"
+          },
+          {
+            "type": "separator"
+          },
+          {
+            "type": "text",
+            "text": "yyyyyyy",
+            "align": "center",
+            "gravity": "center",
+            "weight": "regular",
+            "color": "#000000"
+          },
+          {
+            "type": "separator"
+          },
+          {
+            "type": "text",
+            "text": "zzzzzzz",
+            "align": "center",
+            "gravity": "center",
+            "weight": "regular",
+            "color": "#000000"
+          }
+        ]
+      }
+    }
+  }
