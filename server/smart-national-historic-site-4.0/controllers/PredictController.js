@@ -31,7 +31,7 @@ PredictController.getPredict = (req, res) => {
       predict(numOfTourist).then(x => {
         let res_arr = [];
         for (let i = 0; i < 3; i++) {
-          res_arr.push(`${x[i]}`);
+          res_arr.push(`${Math.floor(x[i])}`);
         }
         result["number_of_tourist"] = res_arr;
         res.end(JSON.stringify(result));
