@@ -59,6 +59,7 @@ typings/
 
 # next.js build output
 .next
+practice/line/config.json
 
 # MongoDB data
 server/mongodb-docker/mongo-data
