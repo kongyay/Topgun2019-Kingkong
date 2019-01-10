@@ -1,0 +1,143 @@
+{
+    "type": "flex",
+    "altText": "Admin Data",
+    "contents": {
+        "type": "carousel",
+        "contents": [
+            {
+                "type": "bubble",
+                "direction": "ltr",
+                "header": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [
+                        {
+                            "type": "text",
+                            "text": "Temperature",
+                            "align": "center"
+                        }
+                    ]
+                },
+                "hero": {
+                    "type": "image",
+                    "url": "https://www.iconsdb.com/icons/preview/tropical-blue/temperature-xxl.png",
+                    "size": "full",
+                    "aspectRatio": "1.51:1",
+                    "aspectMode": "fit"
+                },
+                "body": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [
+                        {
+                            "type": "text",
+                            "text": "xxxx",
+                            "size": "xl",
+                            "align": "center",
+                            "gravity": "top",
+                            "weight": "bold"
+                        }
+                    ]
+                }
+            },
+            {
+                "type": "bubble",
+                "direction": "ltr",
+                "header": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [
+                        {
+                            "type": "text",
+                            "text": "Humudity",
+                            "align": "center"
+                        }
+                    ]
+                },
+                "hero": {
+                    "type": "image",
+                    "url": "https://findicons.com/files/icons/2711/free_icons_for_windows8_metro/256/humidity.png",
+                    "size": "full",
+                    "aspectRatio": "1.51:1",
+                    "aspectMode": "fit"
+                },
+                "body": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [
+                        {
+                            "type": "text",
+                            "text": "yyyy",
+                            "size": "xl",
+                            "align": "center",
+                            "gravity": "top",
+                            "weight": "bold"
+                        }
+                    ]
+                }
+            },
+            {
+                "type": "bubble",
+                "direction": "ltr",
+                "header": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [
+                        {
+                            "type": "text",
+                            "text": "Visitor",
+                            "align": "center"
+                        }
+                    ]
+                },
+                "hero": {
+                    "type": "image",
+                    "url": "https://www.stoswaldsuk.org/media/22612/people-icon-orange.png",
+                    "size": "full",
+                    "aspectRatio": "1.51:1",
+                    "aspectMode": "fit"
+                },
+                "body": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [
+                      {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                          {
+                            "type": "text",
+                            "text": "IN:"
+                          },
+                          {
+                            "type": "text",
+                            "text": "xxxx",
+                            "flex": 1,
+                            "align": "center",
+                            "gravity": "top",
+                            "weight": "bold"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                          {
+                            "type": "text",
+                            "text": "OUT:"
+                          },
+                          {
+                            "type": "text",
+                            "text": "aaaa",
+                            "align": "center",
+                            "weight": "bold"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+            }
+        ]
+    }
+}

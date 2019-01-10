@@ -3,6 +3,7 @@ const request = require('request')
 const express = require('express')
 
 const config = require('../config.json')
+var carou = require('./carousel.json')
 
 const app = express()
 const port = process.env.PORT || 8080
@@ -63,6 +64,14 @@ function reply(reply_token,msg) {
   curl('reply',body)
 }
 
+function replyObj(reply_token,obj) {
+	let body = JSON.stringify({
+	replyToken: reply_token,
+	messages: [obj]
+  })
+  curl('reply',body)
+}
+
 function curl(method, body) {
 	request.post({
 		url: 'https://api.line.me/v2/bot/message/' + method,
@@ -115,24 +124,27 @@ function handleEvent(event) {
 		console.log(event.beacon.type === 'enter' ? '++++++++++':'----------',new Date(event.timestamp),`EVENT Beacon: ${JSON.stringify(event)}`);
 		let payload = {
 			"beacon": {
-				"datetime": event.timestamp,
+				"datetime": new Date(event.timestamp).toISOString(),
 				"status": event.beacon.type
 			}
 		}
 
 		var options = {
-      uri: `${config.serverIp}/putSanam`,
-      body: payload,
+      uri: `http://${config.serverIp}/api/putSanam`,
+      body: JSON.stringify(payload),
       method: 'POST',
       headers: {
           'Content-Type': 'application/json'
       }
-    }
+		}
+		
     request(options,  function (error, response) {
 			if(error) {
 				console.log(error.message)
 			} else {
 				console.log(response.body)
+				if(false===false)
+					return reply(event.replyToken, 'จำนวนคนเกิน กรุณาเชิญคนออกจากบริเวณ');
 			}
     });
 
@@ -142,13 +154,40 @@ function handleEvent(event) {
 	  default:
 		throw new Error(`EVENT Unknown: ${JSON.stringify(event)}`);
 	}
-  }
+}
   
   function handleText(replyToken, message) {
 	let msg = message.text.toLowerCase()
-	if(message.text.toLowerCase().match(/(บอท|Bot)/)) {
-	   msg = msg.replace(/(บอท|Bot)/,"");
-	   return reply(replyToken,msg)
+	if(message.text === 'Admin_Mon') {
+		var options = {
+      uri: `${config.serverIp}/getAdminMon`,
+      body: {},
+      method: 'GET',
+      headers: {
+				'Content-Type': 'application/json',
+				'X-Bot-Auth' : 'D26oztwqXtn6uBGB'
+      }
+    }
+    request(options,  function (error, res) {
+			if(error) {
+				return reply(replyToken,error.message)
+			} else {
+				if(res.status === 0) {
+					let flex = carou
+					flex.contents.contents[0].body.contents[0].text = `${res.temp} °C`
+					flex.contents.contents[1].body.contents[0].text = `${res.humidity} 	%`
+					flex.contents.contents[2].body.contents[0].contents[1].text = `${res["P-IN"]}`
+					flex.contents.contents[2].body.contents[1].contents[1].text = `${res["P-OUT"]}`
+
+					return replyObj(replyToken,flex)
+				} else {
+					return reply(replyToken,"ไม่อนุญาตครับบบ")
+				}
+				
+			}
+    });
+
+	   
 	}
 	  
 	else
