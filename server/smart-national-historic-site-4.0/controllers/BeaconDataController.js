@@ -63,6 +63,7 @@ beaconDataController.getSanam = (req, res) => {
 
 beaconDataController.updateSanam = (req, res) => {
 	let action = req.body.beacon.status;
+	let tstamp = req.body.beacon.datetime;
 
 	BeaconData.countDocuments({ timestamp: Utility.getFullHour() }, (err, count) => {
 		if (err) {
