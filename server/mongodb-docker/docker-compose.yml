@@ -1,0 +1,13 @@
+version: '2'
+
+services:
+  mongodb:
+    image: 'bitnami/mongodb:3.6'
+    labels:
+      kompose.service.type: nodeport
+    ports:
+      - "27017:27017"
+    volumes:
+      - './mongo-data:/bitnami'
+#    environment:
+#      - MONGODB_ROOT_PASSWORD=zxcvbnm237
