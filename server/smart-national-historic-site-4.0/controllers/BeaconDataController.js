@@ -1,4 +1,5 @@
 let BeaconData = require("../models/BeaconData");
+let BeaconDataRaw = require("../models/BeaconDataRaw");
 let Utility = require("./utility");
 
 let beaconDataController = {};
@@ -62,50 +63,61 @@ beaconDataController.getSanam = (req, res) => {
 };
 
 beaconDataController.updateSanam = (req, res) => {
-	let action = req.body.beacon.status;
-	let tstamp = new Date(req.body.beacon.datetime);
-
-	BeaconData.countDocuments({ timestamp: tstamp.setMinutes(0, 0, 0) }, (err, count) => {
+	let beaconContent = req.body.beacon;
+	let beaconRawSave = new BeaconDataRaw(beaconContent);
+	beaconRawSave.save( err => {
 		if (err) {
 			console.log(err);
 			res.end("ERROR");
 			return;
 		}
-		if (count == 0) {
-			let insert = { timestamp: tstamp.setMinutes(0, 0, 0) };
-			if (action == "enter") {
-				insert["P-IN"] = 1;
-			} else {
-				insert["P-OUT"] = 1;
-			}
+		let action = req.body.beacon.status;
+		let tstamp = new Date(req.body.beacon.datetime);
 
-			let newBeacon = new BeaconData(insert);
-			newBeacon.save( err => {
-				if (err) {
-					console.log(err);
-					res.end("ERROR");
-					return;
-				}
-				res.end(JSON.stringify(req.body));
-			});
-		} else {
-			let update = {};
-			if (action == "enter") {
-				update = { $inc: { "P-IN": 1 } };
-			} else {
-				update = { $inc: { "P-OUT": 1 } };
+		BeaconData.countDocuments({ timestamp: tstamp.setMinutes(0, 0, 0) }, (err, count) => {
+			if (err) {
+				console.log(err);
+				res.end("ERROR");
+				return;
 			}
-
-			BeaconData.updateOne({ timestamp: tstamp.setMinutes(0, 0, 0) }, update, (err) => {
-				if (err) {
-					console.log(err);
-					res.end("ERROR");
-					return;
+			if (count == 0) {
+				let insert = { timestamp: tstamp.setMinutes(0, 0, 0) };
+				if (action == "enter") {
+					insert["P-IN"] = 1;
+				} else {
+					insert["P-OUT"] = 1;
 				}
-				res.end(JSON.stringify(req.body));
-			});
-		}
+
+				let newBeacon = new BeaconData(insert);
+				newBeacon.save( err => {
+					if (err) {
+						console.log(err);
+						res.end("ERROR");
+						return;
+					}
+					res.end(JSON.stringify(req.body));
+				});
+			} else {
+				let update = {};
+				if (action == "enter") {
+					update = { $inc: { "P-IN": 1 } };
+				} else {
+					update = { $inc: { "P-OUT": 1 } };
+				}
+
+				BeaconData.updateOne({ timestamp: tstamp.setMinutes(0, 0, 0) }, update, (err) => {
+					if (err) {
+						console.log(err);
+						res.end("ERROR");
+						return;
+					}
+					res.end(JSON.stringify(req.body));
+				});
+			}
+		});
 	});
+
+	
 
 	
 };
