@@ -22,7 +22,6 @@ PredictController.getPredict = (req, res) => {
         res.end(JSON.stringify(result));
         return;
       }
-      console.log(docs);
 
       let numOfTourist = [];
       docs.forEach(doc => {
