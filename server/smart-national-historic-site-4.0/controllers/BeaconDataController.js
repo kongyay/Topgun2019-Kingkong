@@ -116,10 +116,6 @@ beaconDataController.updateSanam = (req, res) => {
 			}
 		});
 	});
-
-	
-
-	
 };
 
 module.exports = beaconDataController;
