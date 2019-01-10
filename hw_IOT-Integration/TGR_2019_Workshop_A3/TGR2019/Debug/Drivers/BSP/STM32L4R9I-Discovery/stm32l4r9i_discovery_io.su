@@ -1,0 +1,8 @@
+stm32l4r9i_discovery_io.c:113:9:BSP_IO_Init	16	static
+stm32l4r9i_discovery_io.c:162:9:BSP_IO_DeInit	0	static
+stm32l4r9i_discovery_io.c:174:10:BSP_IO_ITGetStatus	0	static
+stm32l4r9i_discovery_io.c:186:6:BSP_IO_ITClear	0	static
+stm32l4r9i_discovery_io.c:206:9:BSP_IO_ConfigPin	8	static
+stm32l4r9i_discovery_io.c:221:6:BSP_IO_WritePin	0	static
+stm32l4r9i_discovery_io.c:233:10:BSP_IO_ReadPin	0	static
+stm32l4r9i_discovery_io.c:244:6:BSP_IO_TogglePin	16	static
