@@ -3,6 +3,7 @@ let router = express.Router();
 let beaconDataController = require("../controllers/BeaconDataController");
 let sensorDataController = require("../controllers/SensorDataController");
 let adminMonController = require("../controllers/AdminMonController");
+let predictController = require("../controllers/PredictController");
 
 /* GET home page. */
 router.get("/", (req, res) => {
@@ -23,6 +24,10 @@ router.post("/sensorReceive", (req, res) => {
 
 router.get("/getAdminMon", (req, res) => {
   adminMonController.getAdminMon(req, res);
+});
+
+router.get("/predict", (req, res) => {
+  predictController.getPredict(req, res);
 });
 
 module.exports = router;
