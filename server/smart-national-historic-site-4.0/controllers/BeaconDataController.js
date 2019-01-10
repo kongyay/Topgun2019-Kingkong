@@ -1,4 +1,3 @@
-let mongoose = require("mongoose");
 let BeaconData = require("../models/BeaconData");
 let Utility = require("./utility");
 
