@@ -15,9 +15,6 @@ beaconDataController.getSanam = (req, res) => {
       res.end(JSON.stringify(result));
       return;
     }
-
-    console.log(count);
-    console.log(hours);
 		
     if (hours > count) {
       result["status"] = 1;
@@ -40,7 +37,6 @@ beaconDataController.getSanam = (req, res) => {
           res.end(JSON.stringify(result));
           return;
         }
-        console.log(docs);
 
         let pack = new Promise((resolve, reject) => {
           let numOfTourist = [];
