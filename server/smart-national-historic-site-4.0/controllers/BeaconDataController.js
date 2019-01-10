@@ -62,4 +62,52 @@ beaconDataController.getSanam = (req, res) => {
 	});
 };
 
+beaconDataController.updateSanam = (req, res) => {
+	let action = req.body.beacon.status;
+
+	BeaconData.countDocuments({ timestamp: Utility.getFullHour() }, (err, count) => {
+		if (err) {
+			console.log(err);
+			res.end("ERROR");
+			return;
+		}
+		if (count == 0) {
+			let insert = {};
+			if (action == "enter") {
+				insert["P-IN"] = 1;
+			} else {
+				insert["P-OUT"] = 1;
+			}
+
+			let newBeacon = new BeaconData(insert);
+			newBeacon.save( err => {
+				if (err) {
+					console.log(err);
+					res.end("ERROR");
+					return;
+				}
+				res.end(JSON.stringify(req.body));
+			});
+		} else {
+			let update = {};
+			if (action == "enter") {
+				update = { $inc: { "P-IN": 1 } };
+			} else {
+				update = { $inc: { "P-OUT": 1 } };
+			}
+
+			BeaconData.updateOne({ timestamp: Utility.getFullHour() }, update, (err) => {
+				if (err) {
+					console.log(err);
+					res.end("ERROR");
+					return;
+				}
+				res.end(JSON.stringify(req.body));
+			});
+		}
+	});
+
+	
+};
+
 module.exports = beaconDataController;

@@ -11,4 +11,8 @@ router.get("/getSanam", (req, res) => {
 	beaconDataController.getSanam(req, res);
 });
 
+router.post("/putSanam", (req, res) => {
+	beaconDataController.updateSanam(req, res);
+});
+
 module.exports = router;
