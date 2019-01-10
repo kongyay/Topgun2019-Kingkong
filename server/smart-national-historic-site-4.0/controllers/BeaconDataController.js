@@ -63,16 +63,16 @@ beaconDataController.getSanam = (req, res) => {
 
 beaconDataController.updateSanam = (req, res) => {
 	let action = req.body.beacon.status;
-	let tstamp = req.body.beacon.datetime;
+	let tstamp = new Date(req.body.beacon.datetime);
 
-	BeaconData.countDocuments({ timestamp: Utility.getFullHour() }, (err, count) => {
+	BeaconData.countDocuments({ timestamp: tstamp.setMinutes(0, 0, 0) }, (err, count) => {
 		if (err) {
 			console.log(err);
 			res.end("ERROR");
 			return;
 		}
 		if (count == 0) {
-			let insert = {};
+			let insert = { timestamp: tstamp.setMinutes(0, 0, 0) };
 			if (action == "enter") {
 				insert["P-IN"] = 1;
 			} else {
@@ -96,7 +96,7 @@ beaconDataController.updateSanam = (req, res) => {
 				update = { $inc: { "P-OUT": 1 } };
 			}
 
-			BeaconData.updateOne({ timestamp: Utility.getFullHour() }, update, (err) => {
+			BeaconData.updateOne({ timestamp: tstamp.setMinutes(0, 0, 0) }, update, (err) => {
 				if (err) {
 					console.log(err);
 					res.end("ERROR");
