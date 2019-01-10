@@ -9,8 +9,8 @@ require("dotenv").config();
 var mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
 mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_ADDRESS}:${process.env.DB_PORT}/tgr2019`, {useNewUrlParser: true})
-	.then(() =>  console.log("connection succesful"))
-	.catch((err) => console.error(err));
+  .then(() =>  console.log("connection succesful"))
+  .catch((err) => console.error(err));
 
 let indexRouter = require("./routes/index");
 let apiRouter = require("./routes/api");
@@ -32,18 +32,18 @@ app.use("/api", apiRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-	next(createError(404));
+  next(createError(404));
 });
 
 // error handler
 app.use(function(err, req, res, next) {
-	// set locals, only providing error in development
-	res.locals.message = err.message;
-	res.locals.error = req.app.get("env") === "development" ? err : {};
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get("env") === "development" ? err : {};
 
-	// render the error page
-	res.status(err.status || 500);
-	res.render("error");
+  // render the error page
+  res.status(err.status || 500);
+  res.render("error");
 });
 
 module.exports = app;
