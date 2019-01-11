@@ -114,4 +114,29 @@ beaconDataController.updateSanam = (req, res) => {
   });
 };
 
+beaconDataController.insertEmptyHour = (tstamp) => {
+  BeaconData.count({ timestamp: tstamp}, (err, count) => {
+    if (err) {
+      console.log(err);
+      return;
+    }
+    if (count == 0) {
+      let insert = { 
+        timestamp: tstamp,
+        "P-IN": 0,
+        "P-OUT": 0
+      };
+      
+      let newBeacon = new BeaconData(insert);
+      newBeacon.save( err => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        console.log(`insert empty data for ${tstamp}`);
+      });
+    }
+  });
+};
+
 module.exports = beaconDataController;

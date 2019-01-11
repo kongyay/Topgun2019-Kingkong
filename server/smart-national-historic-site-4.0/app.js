@@ -12,6 +12,15 @@ mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${
   .then(() =>  console.log("connection succesful"))
   .catch((err) => console.error(err));
 
+let beaconDataController = require("./controllers/BeaconDataController");
+let moment = require("moment");
+let schedule = require("node-schedule");
+let insertEmpythHour = schedule.scheduleJob("* 0 * * * *", () => {
+  let hourStr = moment().toISOString();
+  let hourDate = (new Date(hourStr)).setMinutes(0, 0, 0);
+  beaconDataController.insertEmptyHour(hourDate);
+});
+
 let indexRouter = require("./routes/index");
 let apiRouter = require("./routes/api");
 
