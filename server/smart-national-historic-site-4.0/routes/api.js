@@ -19,7 +19,7 @@ router.post("/putSanam", (req, res) => {
 });
 
 router.post("/sensorReceive", (req, res) => {
-  sensorDataController.receiveSensor(req, res);
+  sensorDataController.receiveSensorRaw(req, res);
 });
 
 router.get("/getAdminMon", (req, res) => {
