@@ -11,10 +11,14 @@ sensorDataController.receiveSensor = (req, res) => {
     let receive = {};
 
     data.forEach(obj => {
-      if (obj.type == 2) {
-        receive["teamID"] = parseInt(obj.value);
+      if (obj.type == 104) {
+        receive["Humidity"] = parseFloat(obj.value);
       } else if (obj.type == 103) {
-        receive["temp"] = parseFloat(obj.value);
+        receive["Temperature"] = parseFloat(obj.value);
+      } else if (obj.type == 2) {
+        receive["P-IN"] = parseInt(obj.value);
+      } else if (obj.type == 3) {
+        receive["P-OUT"] = parseInt(obj.value);
       }
     });
 
