@@ -51,7 +51,7 @@
                     "contents": [
                         {
                             "type": "text",
-                            "text": "Humudity",
+                            "text": "Humidity",
                             "weight": "bold",
                             "align": "center"
                         }

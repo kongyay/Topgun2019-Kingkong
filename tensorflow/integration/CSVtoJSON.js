@@ -10,7 +10,7 @@ for (var i = 1; i < lines.length; i++) {
     //console.log(subline)
     for(var k = 1;k < subline.length; k++) {
         var hourly = {
-            "timestamp": `${subline[0]}T${(k-1<10? '0':'') + (0+k-1)}:00:00:000Z`,
+            "timestamp": `${subline[0]}T${(k-1<10? '0':'') + (0+k-1)}:00:00.000+07:00`,
             "P-IN": parseInt(subline[k]),
             "P-OUT": 0
         }

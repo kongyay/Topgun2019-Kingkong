@@ -209,15 +209,15 @@ function handleText(replyToken, message) {
 	   
 	}
 
-	else if(message.text === 'Beacon') {
-	  return reply(replyToken,insideId.length)
+	else if(msg === 'beacon') {
+	  return reply(replyToken,`${insideId.length}\n${insideId.join('\n')}`)
 	}
 
-	else if(message.text === 'About') {
+	else if(msg === 'about') {
 	  return replyObj(replyToken,about)
 	}
 	
-	else if(message.text === 'Predict') {
+	else if(msg === 'predict') {
 		var options = {
       uri: `http://${config.serverIp}/api/predict`,
       method: 'GET',
@@ -234,10 +234,10 @@ function handleText(replyToken, message) {
 				let body = JSON.parse(res.body)
 				flex.contents.body.contents[0].text = body.number_of_tourist[0]
 				flex.contents.body.contents[2].text = body.number_of_tourist[1]
-				flex.contents.body.contents[4].text = body.number_of_tourist[1]
+				flex.contents.body.contents[4].text = body.number_of_tourist[2]
 				return replyObj(replyToken,flex)
 			}
-    });
+    })
 
 	   
 	}
